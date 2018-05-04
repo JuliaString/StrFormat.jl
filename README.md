@@ -1,4 +1,4 @@
-# StrLiterals
+# StrFormat
 
 [![Build Status](https://travis-ci.org/JuliaString/StrFormat.jl.svg?branch=master)](https://travis-ci.org/JuliaString/StrFormat.jl)
 
