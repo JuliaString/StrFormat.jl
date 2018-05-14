@@ -1,8 +1,12 @@
 # License is MIT: LICENSE.md
 
-@static VERSION < v"0.7.0-DEV" ? (using Base.Test) : (using Test)
+using APITools, Format
+@api init
 
-using Format, Strs, StrLiterals, StrFormat
+@api test StrAPI, CharSetEncodings, Chars, StrBase
+@api test StrLiterals, StrFormat
+
+@static V6_COMPAT ? (using Base.Test) : (using Test)
 
 @testset "C Formatting" begin
     @testset "int" begin
