@@ -9,7 +9,7 @@ module StrFormat
 
 using APITools, Format
 
-@api extend StrAPI, CharSetEncodings, Chars, StrBase, StrLiterals
+@api use StrAPI, StrLiterals
 
 function _parse_format(str, pos, fun)
     ex, j = parse(Expr, str, pos; greedy=false)
@@ -73,7 +73,5 @@ function __init__()
     interpolate['%'] = _parse_fmt
     interpolate['{'] = _parse_pyfmt
 end
-
-@api freeze
 
 end # module StrFormat

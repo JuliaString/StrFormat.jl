@@ -1,12 +1,10 @@
 # License is MIT: LICENSE.md
 
 using APITools, Format
+
 @api init
 
-@api test StrAPI, CharSetEncodings, Chars, StrBase
-@api test StrLiterals, StrFormat
-
-@static V6_COMPAT ? (using Base.Test) : (using Test)
+@api test StrAPI, CharSetEncodings, Chars, StrBase, StrLiterals, StrFormat
 
 @testset "C Formatting" begin
     @testset "int" begin
