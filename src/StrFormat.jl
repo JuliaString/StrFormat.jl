@@ -9,7 +9,7 @@ module StrFormat
 
 using APITools, Format
 
-@api use StrAPI, StrLiterals
+@api extend StrAPI, StrLiterals
 
 function _parse_format(str, pos, fun)
     ex, j = parse(Expr, str, pos; greedy=false)
@@ -70,8 +70,8 @@ function _parse_pyfmt(sx::Vector{Any}, s::AbstractString, unescape::Function,
 end
 
 function __init__()
-    interpolate['%'] = _parse_fmt
-    interpolate['{'] = _parse_pyfmt
+    StrLiterals.interpolate['%'] = _parse_fmt
+    StrLiterals.interpolate['{'] = _parse_pyfmt
 end
 
 end # module StrFormat

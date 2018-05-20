@@ -2,9 +2,9 @@
 
 using APITools, Format
 
-@api init
+@api test StrAPI, StrLiterals
 
-@api test StrAPI, CharSetEncodings, Chars, StrBase, StrLiterals, StrFormat
+using StrFormat
 
 @testset "C Formatting" begin
     @testset "int" begin
@@ -36,14 +36,14 @@ using APITools, Format
     end
     @testset "pointers" begin
         @static if Sys.WORD_SIZE == 64
-                    @test f"\%20p(0)"  == "  0x0000000000000000"
-                    @test f"\%-20p(0)" == "0x0000000000000000  "
-                elseif Sys.WORD_SIZE == 32
-                    @test f"\%20p(0)"  == "          0x00000000"
-                    @test f"\%-20p(0)" == "0x00000000          "
-                else
-                    @test false
-                end
+            @test f"\%20p(0)"  == "  0x0000000000000000"
+            @test f"\%-20p(0)" == "0x0000000000000000  "
+        elseif Sys.WORD_SIZE == 32
+            @test f"\%20p(0)"  == "          0x00000000"
+            @test f"\%-20p(0)" == "0x00000000          "
+        else
+            @test false
+        end
     end
     @testset "float / BigFloat" begin
         for num in (1.2345, big"1.2345")
