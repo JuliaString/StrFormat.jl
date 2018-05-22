@@ -1,6 +1,6 @@
 # License is MIT: LICENSE.md
 
-using APITools, Format
+using ModuleInterfaceTools, Format
 
 @api test StrAPI, StrLiterals
 

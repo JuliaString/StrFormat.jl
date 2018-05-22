@@ -7,7 +7,7 @@ Licensed under MIT License, see LICENSE.md
 """
 module StrFormat
 
-using APITools, Format
+using ModuleInterfaceTools, Format
 
 @api extend StrAPI, StrLiterals
 
