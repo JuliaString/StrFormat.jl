@@ -20,7 +20,7 @@ git:
 # uncomment the following lines to override the default test script
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - julia -e 'VERSION < v"0.7.0-DEV" || (using Pkg); d="https://github.com/JuliaString" ; for n in ("ModuleInterfaceTools", "StrAPI", "CharSetEncodings", "Chars", "StrBase") ; Pkg.clone("$d/$n.jl") ; end ; Pkg.add("Format"); Pkg.clone("$d/StrLiterals.jl"); Pkg.clone(pwd()); Pkg.test("StrFormat"; coverage=true)'
+  - julia -e 'VERSION < v"0.7.0-DEV" || (using Pkg); d="https://github.com/JuliaString" ; Pkg.add("ModuleInterfaceTools") ; for n in ("StrAPI", "CharSetEncodings", "ChrBase", "StrBase") ; Pkg.clone("$d/$n.jl") ; end ; Pkg.add("Format"); Pkg.clone("$d/StrLiterals.jl"); Pkg.clone(pwd()); Pkg.test("StrFormat"; coverage=true)'
 after_success:
   # push coverage results to Coveralls
   - julia -e 'VERSION < v"0.7.0-DEV" || (using Pkg); cd(Pkg.dir("StrFormat")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
