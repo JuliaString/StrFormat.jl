@@ -13,14 +13,14 @@ git:
 
 ## uncomment the following lines to allow failures on nightly julia
 ## (tests will run but not make your overall status red)
-matrix:
-  allow_failures:
-  - julia: nightly
+#matrix:
+#  allow_failures:
+#  - julia: nightly
 
 # uncomment the following lines to override the default test script
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - julia -e 'f = VERSION < v"0.7.0-DEV" ; f || (using Pkg) ; const clone = ifelse(f, Pkg.clone, Pkg.add) ; d="https://github.com/JuliaString" ; for n in ("ModuleInterfaceTools", "StrAPI", "CharSetEncodings", "ChrBase", "MurmurHash3", "StrBase", "StrLiterals") ; clone("$d/$n.jl") ; end ; Pkg.add("Format"); clone(pwd()); Pkg.test("StrFormat"; coverage=true)'
+  - julia -e 'if VERSION < v"0.7.0-DEV" ; for n in ("ModuleInterfaceTools", "Format", "StrAPI", "CharSetEncodings"); Pkg.add(n); end ; for n in ("ChrBase", "MurmurHash3", "StrBase", "StrLiterals") ; Pkg.clone("https://github.com/JuliaString/$n.jl") ; end ; Pkg.clone(pwd()); else ; using Pkg ; end ; Pkg.test("StrFormat"; coverage=true)'
 after_success:
   # push coverage results to Coveralls
   - julia -e 'VERSION < v"0.7.0-DEV" || (using Pkg); cd(Pkg.dir("StrFormat")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
