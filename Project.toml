@@ -1,0 +1,12 @@
+name = "StrFormat"
+desc = "Extension for StrLiterals, adds support for C/Python/type-driven formatting"
+authors = ["ScottPJones <scottjones@alum.mit.edu>"]
+keywords = ["Strings", "Literals", "printf", "Format"]
+license = "MIT"
+uuid = "a5a47323-cf2a-443b-a747-99a2b29c4966"
+repo = "https://github.com/JuliaString/StrFormat.jl.git"
+version = "0.1.2"
+
+[deps]
+Format = "1fa38f19-a742-5d3f-a2b9-30dd87b9d5f8"
+StrLiterals = "627f7b36-cfa1-4420-8f93-de9d4fe56cdc"
