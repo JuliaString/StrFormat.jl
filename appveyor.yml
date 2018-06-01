@@ -42,15 +42,13 @@ build_script:
   - IF EXIST .git\shallow (git fetch --unshallow)
   - C:\projects\julia\bin\julia -e "VERSION < v\"0.7.0-DEV\" || (using InteractiveUtils);
       versioninfo(); pkg = \"StrFormat\";
+      la = (\"ModuleInterfaceTools\", \"MurmurHash3\", \"Format\", \"StrAPI\", \"CharSetEncodings\", \"ChrBase\");
+      lc = (\"StrBase\", \"StrLiterals\");
       if VERSION < v\"0.7.0-DEV.5183\";
-         for n in (\"ModuleInterfaceTools\", \"MurmurHash3\", \"Format\", \"StrAPI\", \"CharSetEncodings\");
-             Pkg.add(n);
-         end;
-         for n in (\"ChrBase\", \"StrBase\", \"StrLiterals\");
-             Pkg.clone(\"https://github.com/JuliaString/$n.jl.git\", n);
-         end;
-         Pkg.clone(pwd(), \"StrFormat\");
-      end"
+         for n in la; Pkg.add(n); end;
+         for n in lc; Pkg.clone(\"https://github.com/JuliaString/$n.jl.git\", n); end;
+         Pkg.clone(pwd(), pkg);
+      else; Pkg.up(); end"
 
 test_script:
-  - C:\projects\julia\bin\julia -e "VERSION < v\"0.7.0-DEV\" || (using Pkg); Pkg.test(\"StrFormat\")"
+  - C:\projects\julia\bin\julia -e "Pkg.test(\"StrFormat\")"
