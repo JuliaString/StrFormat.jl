@@ -41,14 +41,20 @@ build_script:
 # Need to convert from shallow to complete for Pkg.clone to work
   - IF EXIST .git\shallow (git fetch --unshallow)
   - C:\projects\julia\bin\julia -e "VERSION < v\"0.7.0-DEV\" || (using InteractiveUtils);
-      versioninfo(); pkg = \"StrFormat\";
-      la = (\"ModuleInterfaceTools\", \"MurmurHash3\", \"Format\", \"StrAPI\", \"CharSetEncodings\", \"ChrBase\");
-      lc = (\"StrBase\", \"StrLiterals\");
+      versioninfo(); mit = \"ModuleInterfaceTools\"; mh3 = \"MurmurHash3\";
+      loc = \"https://github.com/JuliaString\"; sb = \"StrBase\"; sl = \"StrLiterals\";
+      la = (\"Format\", \"StrAPI\", \"CharSetEncodings\", \"ChrBase\");
       if VERSION < v\"0.7.0-DEV.5183\";
+         cln(a) = Pkg.clone(\"$loc/$a.jl.git\", a);
+         cln(mit); cln(mh3);
          for n in la; Pkg.add(n); end;
-         for n in lc; Pkg.clone(\"https://github.com/JuliaString/$n.jl.git\", n); end;
-         Pkg.clone(pwd(), pkg);
-      else; Pkg.up(); end"
+         cln(sb); cln(sl);
+         Pkg.clone(pwd(), \"StrFormat\");
+      else;
+         using Pkg;
+         cln(a) = Pkg.add(\"$loc/$a.jl.git\");
+         cln(mit); cln(mh3); for n in la; cln(n); end; cln(sb); cln(sl);
+      end"
 
 test_script:
   - C:\projects\julia\bin\julia -e "Pkg.test(\"StrFormat\")"
