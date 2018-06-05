@@ -2,6 +2,8 @@
 
 using ModuleInterfaceTools, Format
 
+@static V6_COMPAT || (using Pkg)
+
 @api test StrAPI, StrLiterals
 
 using StrFormat
