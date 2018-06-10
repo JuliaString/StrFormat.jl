@@ -2,11 +2,7 @@
 
 using ModuleInterfaceTools, Format
 
-@static V6_COMPAT || (using Pkg)
-
-@api test StrAPI, StrLiterals
-
-using StrFormat
+@api test StrFormat
 
 @testset "C Formatting" begin
     @testset "int" begin
