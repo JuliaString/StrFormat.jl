@@ -9,7 +9,7 @@ module StrFormat
 
 using ModuleInterfaceTools, Format
 
-@api use StrLiterals
+@api use! StrLiterals
 
 function _parse_format(str, pos, fun)
     ex, j = parse(Expr, str, pos; greedy=false)
