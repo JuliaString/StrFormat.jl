@@ -7,9 +7,9 @@ Licensed under MIT License, see LICENSE.md
 """
 module StrFormat
 
-using ModuleInterfaceTools, Format
+using ModuleInterfaceTools
 
-@api use! StrLiterals
+@api extend! Format, StrLiterals
 
 function _parse_format(str, pos, fun)
     ex, j = parse(Expr, str, pos; greedy=false)
