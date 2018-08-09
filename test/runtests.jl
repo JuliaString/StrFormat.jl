@@ -2,7 +2,7 @@
 
 using ModuleInterfaceTools, Format
 
-@api test StrFormat
+@api test StrLiterals, StrFormat
 
 @testset "C Formatting" begin
     @testset "int" begin
