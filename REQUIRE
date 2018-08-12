@@ -1,4 +1,4 @@
 julia 0.6
-ModuleInterfaceTools 0.1.5
+ModuleInterfaceTools 0.1.6
 Format 0.7.0
-StrLiterals 0.1.4
+StrLiterals 0.1.5
