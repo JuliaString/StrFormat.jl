@@ -3,8 +3,8 @@ desc = "Extension for StrLiterals, adds support for C/Python/type-driven formatt
 authors = ["ScottPJones <scottjones@alum.mit.edu>"]
 keywords = ["Strings", "Literals", "printf", "Format"]
 license = "MIT"
-uuid = "a5a47323-cf2a-443b-a747-99a2b29c4966"
-version = "0.1.3"
+uuid = "b5087856-efa9-5a6d-8e6f-97303a7af894"
+version = "0.1.4"
 
 [deps]
 Pkg     = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
