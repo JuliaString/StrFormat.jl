@@ -4,15 +4,17 @@ authors = ["ScottPJones <scottjones@alum.mit.edu>"]
 keywords = ["Strings", "Literals", "printf", "Format"]
 license = "MIT"
 uuid = "b5087856-efa9-5a6d-8e6f-97303a7af894"
-version = "0.1.4"
+version = "0.1.5"
 
 [deps]
-Pkg     = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
-Test    = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-Unicode = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
-
 ModuleInterfaceTools = "5cb8414e-7aab-5a03-a681-351269c074bf"
 Format               = "1fa38f19-a742-5d3f-a2b9-30dd87b9d5f8" # 9wb580eyjv4k3iej
 StrLiterals          = "68059f60-971f-57ff-a2d0-18e7de9ccc84"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
 
 
