@@ -4,7 +4,6 @@ authors = ["ScottPJones <scottjones@alum.mit.edu>"]
 keywords = ["Strings", "Literals", "printf", "Format"]
 license = "MIT"
 uuid = "b5087856-efa9-5a6d-8e6f-97303a7af894"
-version = "0.2.0"
 
 [deps]
 ModuleInterfaceTools = "5cb8414e-7aab-5a03-a681-351269c074bf"
@@ -17,4 +16,8 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 [targets]
 test = ["Test"]
 
-
+[compat]
+julia = "^1.0.0"
+ModuleInterfaceTools = "≥ 1.0.0"
+Format = "≥ 1.0.0"
+StrLiterals = "≥ 1.0.0"
