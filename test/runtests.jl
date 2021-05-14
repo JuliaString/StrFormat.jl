@@ -7,8 +7,13 @@ using ModuleInterfaceTools, Format
 @testset "C Formatting" begin
     @testset "int" begin
         @test f"\%d(typemax(Int64))" == "9223372036854775807"
-        @test f"\%a(typemax(Int64))" == "0x7.fffffffffffffffp+60"
-        @test f"\%A(typemax(Int64))" == "0X7.FFFFFFFFFFFFFFFP+60"
+        @static if VERSION < v"1.5"
+            @test f"\%a(typemax(Int64))" == "0x7.fffffffffffffffp+60"
+            @test f"\%A(typemax(Int64))" == "0X7.FFFFFFFFFFFFFFFP+60"
+        else
+            @test f"\%a(typemax(Int64))" == "0x1p+63"
+            @test f"\%A(typemax(Int64))" == "0X1P+63"
+        end
     end
     @testset "printing an int value" begin
         for num in (UInt16(42), UInt32(42), UInt64(42), UInt128(42),
@@ -24,10 +29,17 @@ using ModuleInterfaceTools, Format
             @test f"\%+i(num)"      == "+42"
             @test f"\%4i(num)"      == "  42"
             @test f"\%-4i(num)"     == "42  "
-            @test f"\%a(num)"       == "0x2.ap+4"
-            @test f"\%A(num)"       == "0X2.AP+4"
-            @test f"\%20a(num)"     == "            0x2.ap+4"
-            @test f"\%-20a(num)"    == "0x2.ap+4            "
+            @static if VERSION < v"1.5"
+                @test f"\%a(num)"       == "0x2.ap+4"
+                @test f"\%A(num)"       == "0X2.AP+4"
+                @test f"\%20a(num)"     == "            0x2.ap+4"
+                @test f"\%-20a(num)"    == "0x2.ap+4            "
+            else
+                @test f"\%a(num)"       == "0x1.5p+5"
+                @test f"\%A(num)"       == "0X1.5P+5"
+                @test f"\%20a(num)"     == "            0x1.5p+5"
+                @test f"\%-20a(num)"    == "0x1.5p+5            "
+            end
             @test f"\%f(num)"       == "42.000000"
             @test f"\%g(num)"       == "42"
         end

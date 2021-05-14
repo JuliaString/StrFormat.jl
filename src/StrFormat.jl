@@ -1,8 +1,7 @@
-__precompile__(true)
 """"
 Add C, Python and type-based formatting to Str string literals
 
-Copyright 2016-2018 Gandalf Software, Inc., Scott P. Jones
+Copyright 2016-2020 Gandalf Software, Inc., Scott P. Jones
 Licensed under MIT License, see LICENSE.md
 """
 module StrFormat
@@ -10,6 +9,9 @@ module StrFormat
 using ModuleInterfaceTools
 
 @api extend! Format, StrLiterals
+
+# Export from here as well so that people can do just `using StrFormat`
+export @f_str, @pr_str, @F_str, @PR_str, @sym_str
 
 function _parse_format(str, pos, fun)
     ex, j = parse(Expr, str, pos; greedy=false)
@@ -24,7 +26,7 @@ end
 function _parse_fmt(sx::Vector{Any}, s::AbstractString, unescape::Function,
                     i::Integer, j::Integer, k::Integer)
     # Move past \\, k should point to '%'
-    c, k = str_next(s, k)
+    c, k = iterate(s, k)
     check_done(s, k, "Incomplete % expression")
     # Handle interpolation
     isempty(s[i:j-1]) || push!(sx, unescape(s[i:j-1]))
@@ -35,7 +37,7 @@ function _parse_fmt(sx::Vector{Any}, s::AbstractString, unescape::Function,
         # Move past %, c should point to letter
         beg = k
         while true
-            c, k = str_next(s, k)
+            c, k = iterate(s, k)
             check_done(s, k, "Incomplete % expression")
             s[k] == '(' && break
         end
@@ -49,18 +51,18 @@ end
 function _parse_pyfmt(sx::Vector{Any}, s::AbstractString, unescape::Function,
                       i::Integer, j::Integer, k::Integer)
     # Move past \\, k should point to '{'
-    c, k = str_next(s, k)
+    c, k = iterate(s, k)
     check_done(s, k, "Incomplete {...} Python format expression")
     # Handle interpolation
     isempty(s[i:j-1]) || push!(sx, unescape(s[i:j-1]))
     beg = k # start location
-    c, k = str_next(s, k)
+    c, k = iterate(s, k)
     while c != '}'
         check_done(s, k, string("\\{ missing closing } in ", c))
-        c, k = str_next(s, k)
+        c, k = iterate(s, k)
     end
     check_done(s, k, "Missing (expr) in Python format expression")
-    c, k = str_next(s, k)
+    c, k = iterate(s, k)
     c == '(' || parse_error(string("Missing (expr) in Python format expression: ", c))
     # Need to find end to parse to
     ex, j = _parse_format(s, k-1, Format.pyfmt)
