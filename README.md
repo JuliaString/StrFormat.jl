@@ -40,11 +40,36 @@ This is especially useful when defaults have been set for the type of the first 
 * `fmt_default!{T}(::Type{T}, syms::Symbol...; kwargs...)` sets the defaults for a particular type.
 * `fmt_default!(syms::Symbol...; kwargs...)` sets the defaults for all types.
 
-Symbols that can currently be used are: `:ljust` or `:left`, `:rjust` or `:right`, `:commas`, `:zpad` or `:zeropad`, and `:ipre` or `:prefix`.
+Symbols that can currently be used are: `:ljust` or `:left`, `:rjust` or `:right`, `:center`, `:commas`, `:zpad` or `:zeropad`, and `:ipre` or `:prefix`.
+Several keyword arguments can also be used:
+Keyword | Type | Meaning                   | Default
+--------|------|---------------------------|-------
+fill    | Char | Fill character            | ' '
+align   | Char | Alignment character       | '\\0'
+sign    | Char | Sign character            | '-'
+width   | Int  | Field width               | -1, i.e. ignored
+prec    | Int  | Floating Precision        | -1, i.e. ignored
+ipre    | Bool | Use 0b, 0o, or 0x prefix? | false
+zpad    | Bool | Pad with 0s on left       | false
+tsep    | Bool | Use thousands separator?  | false
+
 * `reset!{T}(::Type{T})` resets the defaults for a particular type.
 * `defaultSpec(x)` will return the defaults for the type of x, and
 * `defaultSpec{T}(::Type{T})` will return the defaults for the given type.
 
-There is currently support for Python style formatting, although that is a work-in-progress,
-and I am intending to improve the syntax to make it as close as possible to Python's 3.6 format strings.
-Currently, the syntax is `\{<formatstring>}(expression)`, however I plan on changing it shortly to `\{expression}` (equivalent to `pyfmt("", expression)`, and `\{expression;formatstring}` (equivalent to `pyfmt("formatstring", expression)`.
+There is also support for Python style formatting, which supports most options (except for '%' currently).
+
+# Python style formatting specification language
+
+  spec  ::= [[fill]align][sign][#][0][width][,_][.prec][type]
+  fill  ::= <any character>
+  align ::= '<' | '^' | '>'
+  sign  ::= '+' | '-' | ' '
+  width ::= <integer>
+  prec  ::= <integer>
+  type  ::= 'b' | 'c' | 'd' | 'e' | 'E' | 'f' | 'F' | 'g' | 'G' | 'n' | 'o' | 'x' | 'X' | 's'
+
+Please refer to http://docs.python.org/2/library/string.html#formatspec
+for more details
+
+The syntax is slightly different, `\{<formatspec>}(expression)`, instead of `{variable:formatspec}`, so as to fit better with Julia's string syntax.
