@@ -32,13 +32,25 @@
 
 The following extra format sequences (see [StrLiterals](https://github.com/JuliaString/StrLiterals.jl) for the full specification) are added:
 
-* `\%<ccc><formatcode>(arguments)` is interpolated as a call to `cfmt("<cccc><formatcode>",arguments)`, where `<ccc><formatcode>` is a C-style format string.
+# C style formatting specification language
 
-* `\%(arguments)` is interpolated as a call to `fmt(arguments)`.
+* `\%<ccc><formatcode>(arguments)` is interpolated as a call to `cfmt("%<ccc><formatcode>",arguments)`, where `<ccc><formatcode>` is a C-style format string.
+* and <ccc> is [flags][width][.precision][length]
+
+* supported flags are: ` `, `-`, `+`, `0`, `#`, and `'` (add comma thousand separators)
+* formatcode := `d` | `D` | `u` | `U` | `o` | `O` | `x` | `X` | `e` | `E` | `f` | `F` | `g` | `G` | `a` | `A` | `c` | `C` | `s` | `S` | `i` | `p` | `n`
+* length is ignored (it was only needed for C/C++ since argument values don't have types)
+
+# Type based formatting
+
+* `\%(value, arguments...)` is interpolated as a call to `fmt(value, arguments...)`.
 This is especially useful when defaults have been set for the type of the first argument.
 
 * `fmt_default!{T}(::Type{T}, syms::Symbol...; kwargs...)` sets the defaults for a particular type.
 * `fmt_default!(syms::Symbol...; kwargs...)` sets the defaults for all types.
+* `reset!{T}(::Type{T})` resets the defaults for a particular type.
+* `defaultSpec(x)` will return the defaults for the type of x, and
+* `defaultSpec{T}(::Type{T})` will return the defaults for the given type.
 
 Symbols that can currently be used are: `:ljust` or `:left`, `:rjust` or `:right`, `:center`, `:commas`, `:zpad` or `:zeropad`, and `:ipre` or `:prefix`.
 Several keyword arguments can also be used:
@@ -53,21 +65,16 @@ ipre    | Bool | Use 0b, 0o, or 0x prefix? | false
 zpad    | Bool | Pad with 0s on left       | false
 tsep    | Bool | Use thousands separator?  | false
 
-* `reset!{T}(::Type{T})` resets the defaults for a particular type.
-* `defaultSpec(x)` will return the defaults for the type of x, and
-* `defaultSpec{T}(::Type{T})` will return the defaults for the given type.
-
-There is also support for Python style formatting, which supports most options (except for '%' currently).
-
 # Python style formatting specification language
+(supports most all options except for '%' currently)
 
-  spec  ::= [[fill]align][sign][#][0][width][,_][.prec][type]
-  fill  ::= <any character>
-  align ::= '<' | '^' | '>'
-  sign  ::= '+' | '-' | ' '
-  width ::= <integer>
-  prec  ::= <integer>
-  type  ::= 'b' | 'c' | 'd' | 'e' | 'E' | 'f' | 'F' | 'g' | 'G' | 'n' | 'o' | 'x' | 'X' | 's'
+  * spec  ::= [[fill]align][sign][#][0][width][,_][.prec][type]
+  * fill  ::= <any character>
+  * align ::= '<' | '^' | '>'
+  * sign  ::= '+' | '-' | ' '
+  * width ::= <integer>
+  * prec  ::= <integer>
+  * type  ::= 'b' | 'c' | 'd' | 'e' | 'E' | 'f' | 'F' | 'g' | 'G' | 'n' | 'o' | 'x' | 'X' | 's'
 
 Please refer to http://docs.python.org/2/library/string.html#formatspec
 for more details
